@@ -1,9 +1,20 @@
-import express from "express";
-
-const app = express();
+import mongoose from "mongoose";
+import { app } from "./app";
 
 const port = process.env.PORT || 3000
+const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/microservices-posts'
 
-app.listen(port, () => {
-    console.log('Listening to port: ' + port);  
-})
+const start = async () => {
+    try {
+        await mongoose.connect(mongoURI)
+        console.log('Connected to mongodb');
+    } catch (error) {   
+        console.error(error)
+    }
+    
+    app.listen(port, () => {
+        console.log('Listening to port: ' + port);  
+    })
+}
+
+start();
